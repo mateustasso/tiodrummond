@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Exemplo GET Cliente</title>
+    <script type="text/javascript">
+        function getCliente()
+        {
+        	var data = null;
+
+        	var xhr = new XMLHttpRequest();
+        	
+        	xhr.onreadystatechange = function () {
+                if(xhr.readyState === XMLHttpRequest.DONE) {
+                    console.log(xhr.status);
+                    if (xhr.status == 200)
+                    	{
+                    	console.log(this.responseText);
+                  	    if (this.responseText)
+                  	    	showCliente(this.responseText);
+                    	
+                    	}
+                    else
+                    	{
+                    		showStatus(xhr.status);
+                    	}
+                }
+            };
+
+        	xhr.open("GET", "http://localhost:8888/clientes/" + document.getElementById("txtCliente").value);
+        	xhr.setRequestHeader("Content-Type", "application/json");
+        	xhr.setRequestHeader("Cache-Control", "no-cache");
+        	xhr.send(data);
+        }
+      
+        function showCliente(responseText)
+        {
+        	cliente = JSON.parse(responseText);
+        	respId = document.getElementById("resp");
+        	resp.innerHTML = cliente.codigocliente + "<br />" + cliente.cpf + "<br />" + cliente.nome + "<br />";
+        }
+        
+        function showStatus(httpStatus)
+        {
+        	respId = document.getElementById("resp");
+        	resp.innerHTML = "HTTP status:" + httpStatus;
+        }
+
+
+    </script>
+
+</head>
+<body>
+RA:<br />
+<input id="txtCliente" type="text" placeholder="informe CodigoCliente" />
+<br />
+<input type="button" value="Get Cliente" onclick="getCliente();" />
+<br />
+<div id="resp">
+</div>
+</body>
+</html>
